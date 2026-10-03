@@ -326,15 +326,21 @@ class JudoApiClient:
 
     # --- Water volume commands ---
 
-    async def get_total_water(self) -> int:
-        """Read total water volume in liters (cmd 0x28)."""
+    async def get_total_water(self) -> int | None:
+        """Read total water volume in liters (cmd 0x28), None if invalid."""
         data = await self.send_command("28", "00")
-        return parse_int_lsb(data, 4) if data and len(data) >= 8 else 0
+        if not data or len(data) < 8:
+            _LOGGER.debug("Invalid total water response (cmd 0x28): %r", data)
+            return None
+        return parse_int_lsb(data, 4)
 
-    async def get_soft_water(self) -> int:
-        """Read soft water volume in liters (cmd 0x29)."""
+    async def get_soft_water(self) -> int | None:
+        """Read soft water volume in liters (cmd 0x29), None if invalid."""
         data = await self.send_command("29", "00")
-        return parse_int_lsb(data, 4) if data and len(data) >= 8 else 0
+        if not data or len(data) < 8:
+            _LOGGER.debug("Invalid soft water response (cmd 0x29): %r", data)
+            return None
+        return parse_int_lsb(data, 4)
 
     # --- Leak protection commands (softener variants) ---
 

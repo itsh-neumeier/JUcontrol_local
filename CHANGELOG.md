@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- Total water and soft water keep the last value instead of dropping to 0 on an empty or short device answer, which Home Assistant booked as a meter reset
+- A lower total water or soft water reading is only published once it comes on three consecutive polls, so a single bad reading no longer registers as a meter reset
+
 ## [1.2.2] - 2026-03-22
 
 ### Changed

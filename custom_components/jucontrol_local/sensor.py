@@ -83,7 +83,11 @@ SENSOR_DESCRIPTIONS: tuple[JudoSensorEntityDescription, ...] = (
         suggested_display_precision=3,
         suggested_unit_of_measurement=UnitOfVolume.CUBIC_METERS,
         required_capability=Capability.TOTAL_WATER,
-        value_fn=lambda data: round(data.get("total_water", 0) / 1000, 3),
+        value_fn=lambda data: (
+            round(data["total_water"] / 1000, 3)
+            if data.get("total_water") is not None
+            else None
+        ),
     ),
     JudoSensorEntityDescription(
         key="soft_water",
@@ -95,7 +99,11 @@ SENSOR_DESCRIPTIONS: tuple[JudoSensorEntityDescription, ...] = (
         suggested_display_precision=3,
         suggested_unit_of_measurement=UnitOfVolume.CUBIC_METERS,
         required_capability=Capability.SOFT_WATER,
-        value_fn=lambda data: round(data.get("soft_water", 0) / 1000, 3),
+        value_fn=lambda data: (
+            round(data["soft_water"] / 1000, 3)
+            if data.get("soft_water") is not None
+            else None
+        ),
     ),
     JudoSensorEntityDescription(
         key="hardness_unit",
